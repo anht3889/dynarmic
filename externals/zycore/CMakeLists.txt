@@ -9,7 +9,7 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15")
     cmake_policy(SET CMP0091 NEW)
 endif ()
 
-project(Zycore VERSION 1.4.0.0 LANGUAGES C)
+project(Zycore VERSION 1.5.0.0 LANGUAGES C)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -228,10 +228,16 @@ install(DIRECTORY "include/" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 find_package(Doxygen)
 if (DOXYGEN_FOUND)
+    set(DOXYGEN_GENERATE_MAN YES)
     doxygen_add_docs(ZycoreDoc "include/Zycore/" ALL)
     install(
         DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/api"
+        COMPONENT Documentation
+    )
+    install(
+        DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man/man3/"
+        DESTINATION "${CMAKE_INSTALL_MANDIR}/man3"
         COMPONENT Documentation
     )
 endif()
