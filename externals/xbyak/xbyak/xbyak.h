@@ -155,7 +155,7 @@ namespace Xbyak {
 
 enum {
 	DEFAULT_MAX_CODE_SIZE = 4096,
-	VERSION = 0x7050 /* 0xABCD = A.BC(.D) */
+	VERSION = 0x7060 /* 0xABCD = A.BC(.D) */
 };
 
 #ifndef MIE_INTEGER_TYPE_DEFINED
@@ -3215,7 +3215,7 @@ public:
 	{
 		if (x == 1) return;
 		if (x < 1 || (x & (x - 1))) XBYAK_THROW(ERR_BAD_ALIGN)
-		if (isAutoGrow()) XBYAK_THROW(ERR_BAD_ALIGN)
+		if (isAutoGrow() && inner::getPageSize() % x != 0) XBYAK_THROW(ERR_BAD_ALIGN)
 		size_t remain = size_t(getCurr()) % x;
 		if (remain) {
 			nop(x - remain, useMultiByteNop);
